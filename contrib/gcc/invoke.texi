@@ -93,7 +93,7 @@ in the following sections.
 @item C Language Options
 @xref{C Dialect Options,,Options Controlling C Dialect}.
 @smallexample
--ansi -fstd  -fallow-single-precision  -fcond-mismatch  -fno-asm
+-ansi -flang-isoc9x -fallow-single-precision  -fcond-mismatch  -fno-asm
 -fno-builtin  -ffreestanding  -fhosted  -fsigned-bitfields  -fsigned-char
 -funsigned-bitfields  -funsigned-char  -fwritable-strings
 -traditional  -traditional-cpp  -trigraphs
@@ -667,37 +667,14 @@ programs that might use these names for other things.
 The functions @code{alloca}, @code{abort}, @code{exit}, and
 @code{_exit} are not builtin functions when @samp{-ansi} is used.
 
-@item -fstd=
-Determine the language standard.  A value for this option must be provided;
-possible values are 
+@item -flang-isoc9x
+Enable support for features found in the C9X standard.  In particular,
+enable support for the C9X @code{restrict} keyword.  
 
-@itemize @minus
-@item iso9899:1990
-Same as -ansi
-
-@item iso9899:199409
-ISO C as modified in amend. 1
-
-@item iso9899:199x
-ISO C 9x
-
-@item c89
-same as -std=iso9899:1990
-
-@item c9x
-same as -std=iso9899:199x
-
-@item gnu89
-default, iso9899:1990 + gnu extensions
-
-@item gnu9x
-iso9899:199x + gnu extensions
-@end itemize
-
-Even when this option is not specified, you can still use some of the
-features of newer standards in so far as they do not conflict with
-previous C standards.  For example, you may use @code{__restrict__} even
-when -fstd=c9x is not specified.
+Even when this option is not specified, you can still use some C9X
+features in so far as they do not conflict with previous C standards.
+For example, you may use @code{__restrict__} even when -flang-isoc9x
+is not specified. 
 
 @item -fno-asm
 Do not recognize @code{asm}, @code{inline} or @code{typeof} as a
@@ -2225,10 +2202,10 @@ perform loop unrolling or function inlining when you specify @samp{-O2}.
 As compared to @samp{-O}, this option increases both compilation time
 and the performance of the generated code.
 
-@samp{-O2} turns on all optional optimizations except for loop unrolling,
-function inlining, and strict aliasing optimizations.  It also turns on the
-@samp{-fforce-mem} option on all machines and frame pointer elimination on
-machines where doing so does not interfere with debugging.
+@samp{-O2} turns on all optional optimizations except for loop unrolling
+and function inlining.  It also turns on the @samp{-fforce-mem} option
+on all machines and frame pointer elimination on machines where doing so
+does not interfere with debugging.
 
 @item -O3
 Optimize yet more.  @samp{-O3} turns on all optimizations specified by
@@ -2386,9 +2363,9 @@ math functions.
 @c --mew 26jan93
 The following options control specific optimizations.  The @samp{-O2}
 option turns on all of these optimizations except @samp{-funroll-loops}
-@samp{-funroll-all-loops}, and @samp{-fstrict-aliasing}.  On most machines, the
-@samp{-O} option turns on the @samp{-fthread-jumps} and @samp{-fdelayed-branch}
-options, but specific machines may handle it differently.
+and @samp{-funroll-all-loops}.  On most machines, the @samp{-O} option
+turns on the @samp{-fthread-jumps} and @samp{-fdelayed-branch} options,
+but specific machines may handle it differently.
 
 You can use the following flags in the rare cases when ``fine-tuning''
 of optimizations to be performed is desired.

@@ -2131,7 +2131,7 @@ operand_equal_p (arg0, arg1, only_const)
 
       case STRING_CST:
 	return (TREE_STRING_LENGTH (arg0) == TREE_STRING_LENGTH (arg1)
-		&& ! memcmp (TREE_STRING_POINTER (arg0),
+		&& ! strncmp (TREE_STRING_POINTER (arg0),
 			      TREE_STRING_POINTER (arg1),
 			      TREE_STRING_LENGTH (arg0)));
 
@@ -2177,12 +2177,6 @@ operand_equal_p (arg0, arg1, only_const)
 				  TREE_OPERAND (arg1, 0), 0));
 
     case 'r':
-      /* If either of the pointer (or reference) expressions we are dereferencing
-	 contain a side effect, these cannot be equal. */
-      if (TREE_SIDE_EFFECTS (arg0)
-	  || TREE_SIDE_EFFECTS (arg1))
-	return 0;
-
       switch (TREE_CODE (arg0))
 	{
 	case INDIRECT_REF:

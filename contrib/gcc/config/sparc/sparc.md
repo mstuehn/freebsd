@@ -2838,7 +2838,7 @@
     return \"#\";
 }"
   [(set_attr "type" "move")
-   (set_attr "length" "1,2")])
+   (set_attr "length" "1")])
 
 ;; There isn't much I can do about this, if I change the
 ;; mode then flow info gets really confused because the
@@ -3013,7 +3013,7 @@
     return \"#\";
 }"
   [(set_attr "type" "move")
-   (set_attr "length" "1,2,2")])
+   (set_attr "length" "1")])
 
 (define_split
   [(set (match_operand:DF 0 "register_operand" "")
@@ -7355,7 +7355,7 @@
 		    gen_rtvec (3,
 			       gen_rtx_SET (VOIDmode, pc_rtx,
 					XEXP (operands[0], 0)),
-			       operands[3],
+			       GEN_INT (INTVAL (operands[3]) & 0xfff),
 			       gen_rtx_CLOBBER (VOIDmode,
 					gen_rtx_REG (Pmode, 15)))));
       else
@@ -7387,7 +7387,7 @@
     emit_call_insn
       (gen_rtx_PARALLEL (VOIDmode,
 		gen_rtvec (3, gen_rtx_CALL (VOIDmode, fn_rtx, nregs_rtx),
-			   operands[3],
+			   GEN_INT (INTVAL (operands[3]) & 0xfff),
 			   gen_rtx_CLOBBER (VOIDmode,
 				    gen_rtx_REG (Pmode, 15)))));
   else
