@@ -1,33 +1,20 @@
 .TH FILE __CSECTION__ "Copyright but distributable"
-.\" $Id: file.man,v 1.57 2005/08/18 15:18:22 christos Exp $
+.\" $Id: file.man,v 1.36 2000/08/05 17:36:48 christos Exp $
 .SH NAME
 file
 \- determine file type
 .SH SYNOPSIS
 .B file
 [
-.B \-bchikLnNprsvz
+.B \-bciknsvzL
 ]
 [
 .B \-f
-.I namefile
-]
-[
-.B \-F
-.I separator
-]
+namefile ]
 [
 .B \-m 
-.I magicfiles
-]
-.I file
-\&...
-.br
-.B file
-.B -C
-[
-.B \-m 
-magicfile ]
+magicfiles ]
+file ...
 .SH DESCRIPTION
 This manual page documents version __VERSION__ of the
 .B file
@@ -64,12 +51,6 @@ People depend on knowing that all the readable files in a directory
 have the word ``text'' printed.
 Don't do as Berkeley did and change ``shell commands text''
 to ``shell script''.
-Note that the file
-.I __MAGIC__
-is built mechanically from a large number of small files in
-the subdirectory
-.I Magdir
-in the source distribution of this program.
 .PP
 The filesystem tests are based on examining the return from a
 .BR stat (2)
@@ -98,18 +79,8 @@ that the file is a binary executable, and which of several types thereof.
 The concept of `magic number' has been applied by extension to data files.
 Any file with some invariant identifier at a small fixed
 offset into the file can usually be described in this way.
-The information identifying these files is read from the compiled
-magic file
-.I __MAGIC__.mgc ,
-or 
-.I __MAGIC__
-if the compile file does not exist. In addition
-.B file
-will look in
-.I $HOME/.magic.mgc ,
-or
-.I $HOME/.magic
-for magic entries.
+The information identifying these files is read from the magic file
+.I __MAGIC__.
 .PP
 If a file does not match any of the entries in the magic file,
 it is examined to see if it seems to be a text file.
@@ -159,20 +130,16 @@ Any file that cannot be identified as having been written
 in any of the character sets listed above is simply said to be ``data''.
 .SH OPTIONS
 .TP 8
-.B "\-b, \-\-brief"
+.B \-b
 Do not prepend filenames to output lines (brief mode).
 .TP 8
-.B "\-c, \-\-checking\-printout"
+.B \-c
 Cause a checking printout of the parsed form of the magic file.
 This is usually used in conjunction with 
 .B \-m
 to debug a new magic file before installing it.
 .TP 8
-.B "\-C, \-\-compile"
-Write a magic.mgc output file that contains a pre-parsed version of
-file.
-.TP 8
-.BI "\-f, \-\-files\-from" " namefile"
+.B \-f namefile
 Read the names of the files to be examined from 
 .I namefile
 (one per line) 
@@ -182,70 +149,41 @@ Either
 or at least one filename argument must be present;
 to test the standard input, use ``\-'' as a filename argument.
 .TP 8
-.BI "\-F, \-\-separator" " separator"
-Use the specified string as the separator between the filename and the
-file result returned. Defaults to ``:''.
-.TP 8
-.B "\-h, \-\-no-dereference"
-option causes symlinks not to be followed
-(on systems that support symbolic links). This is the default if the
-environment variable
-.I POSIXLY_CORRECT
-is not defined.
-.TP 8
-.B "\-i, \-\-mime"
+.B \-i
 Causes the file command to output mime type strings rather than the more
 traditional human readable ones. Thus it may say
 ``text/plain; charset=us-ascii''
 rather
-than ``ASCII text''.
-In order for this option to work, file changes the way
-it handles files recognised by the command itself (such as many of the
+than ``ASCII text''. In order for this option to work, file changes the way
+it handles files recognised by the command it's self (such as many of the
 text file types, directories etc), and makes use of an alternative
 ``magic'' file.
 (See ``FILES'' section, below).
 .TP 8
-.B "\-k, \-\-keep\-going"
+.B \-k
 Don't stop at the first match, keep going.
 .TP 8
-.B "\-L, \-\-dereference"
-option causes symlinks to be followed, as the like-named option in
-.BR ls (1)
-(on systems that support symbolic links).
-This is the default if the environment variable
-.I POSIXLY_CORRECT
-is defined.
-.TP 8
-.BI "\-m, \-\-magic\-file" " list"
+.B \-m list
 Specify an alternate list of files containing magic numbers.
 This can be a single file, or a colon-separated list of files.
-If a compiled magic file is found alongside, it will be used instead.
-With the \-i or \-\-mime option, the program adds ".mime" to each file name.
 .TP 8
-.B "\-n, \-\-no\-buffer"
-Force stdout to be flushed after checking each file.
-This is only useful if checking a list of files.
-It is intended to be used by programs that want filetype output from a pipe.
+.B \-n
+Force stdout to be flushed after check a file. This is only useful if
+checking a list of files. It is intended to be used by programs want
+filetype output from a pipe.
 .TP 8
-.B "\-N, \-\-no\-pad"
-Don't pad filenames so that they align in the output.
+.B \-v
+Print the version of the program and exit.
 .TP 8
-.B "\-p, \-\-preserve\-date"
-On systems that support
-.BR utime (2)
-or
-.BR utimes(2),
-attempt to preserve the access time of files analyzed, to pretend that
-.BR file (2)
-never read them.
+.B \-z
+Try to look inside compressed files.
 .TP 8
-.B "\-r, \-\-raw"
-Don't translate unprintable characters to \eooo.
-Normally
-.B file
-translates unprintable characters to their octal representation.
+.B \-L
+option causes symlinks to be followed, as the like-named option in
+.BR ls (1).
+(on systems that support symbolic links).
 .TP 8
-.B "\-s, \-\-special\-files"
+.B \-s
 Normally,
 .B file
 only attempts to read and determine the type of argument files which
@@ -265,53 +203,18 @@ This option also causes
 to disregard the file size as reported by
 .BR stat (2)
 since on some systems it reports a zero size for raw disk partitions.
-.TP 8
-.B "\-v, \-\-version"
-Print the version of the program and exit.
-.TP 8
-.B "\-z, \-\-uncompress"
-Try to look inside compressed files.
-.TP 8
-.B "\-\-help"
-Print a help message and exit.
 .SH FILES
-.TP
-.I __MAGIC__.mgc
-Default compiled list of magic numbers
-.TP
 .I __MAGIC__
-Default list of magic numbers
-.TP
-.I __MAGIC__.mime.mgc
-Default compiled list of magic numbers, used to output mime types when
-the -i option is specified.
-.TP
+\- default list of magic numbers
+.PP
 .I __MAGIC__.mime
-Default list of magic numbers, used to output mime types when the -i option
+\- default list of magic numbers, used to output mime types when the -i option
 is specified.
 
 .SH ENVIRONMENT
 The environment variable
 .B MAGIC
-can be used to set the default magic number file name.
-If that variable is set, then
-.B file
-will not attempt to open
-.B $HOME/.magic .
-.B file
-adds ".mime" and/or ".mgc" to the value of this variable as appropriate.
-The environment variable
-.B POSIXLY_CORRECT
-controls (on systems that support symbolic links), if
-.B file
-will attempt to follow symlinks or not. If set, then
-.B file
-follows symlink, otherwise it does not. This is also controlled
-by the
-.B L
-and
-.B h
-options.
+can be used to set the default magic number files.
 .SH SEE ALSO
 .BR magic (__FSECTION__)
 \- description of magic file format.
@@ -339,8 +242,7 @@ in an existing magic file would have to be changed to
 >10	string	language\e impress	(imPRESS data)
 .br
 In addition, in this version, if a pattern string contains a backslash,
-it must be escaped.
-For example
+it must be escaped.  For example
 .br
 0	string		\ebegindata	Andrew Toolkit document
 .br
@@ -376,15 +278,12 @@ keep the old magic file around for comparison purposes
 .IR __MAGIC__.orig ).
 .SH EXAMPLES
 .nf
-$ file file.c file /dev/{wd0a,hda}
+$ file file.c file /dev/hda
 file.c:   C program text
-file:     ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV),
-          dynamically linked (uses shared libs), stripped
-/dev/wd0a: block special (0/0)
-/dev/hda: block special (3/0)
-$ file -s /dev/wd0{b,d}
-/dev/wd0b: data
-/dev/wd0d: x86 boot sector
+file:     ELF 32-bit LSB executable, Intel 80386, version 1,
+          dynamically linked, not stripped
+/dev/hda: block special
+
 $ file -s /dev/hda{,1,2,3,4,5,6,7,8,9,10}
 /dev/hda:   x86 boot sector
 /dev/hda1:  Linux/i386 ext2 filesystem
@@ -398,37 +297,58 @@ $ file -s /dev/hda{,1,2,3,4,5,6,7,8,9,10}
 /dev/hda9:  empty
 /dev/hda10: empty
 
-$ file -i file.c file /dev/{wd0a,hda}
+$ file -i file.c file /dev/hda
 file.c:      text/x-c
-file:        application/x-executable, dynamically linked (uses shared libs),
-not stripped
+file:        application/x-executable, dynamically linked (uses shared libs), not stripped
 /dev/hda:    application/x-not-regular-file
-/dev/wd0a:   application/x-not-regular-file
 
 .fi
 .SH HISTORY
 There has been a 
 .B file
-command in every \s-1UNIX\s0 since at least Research Version 4
-(man page dated November, 1973).
+command in every \s-1UNIX\s0 since at least Research Version 6
+(man page dated January 16, 1975).
 The System V version introduced one significant major change:
 the external list of magic number types.
 This slowed the program down slightly but made it a lot more flexible.
 .PP
 This program, based on the System V version,
-was written by Ian Darwin <ian@darwinsys.com>
-without looking at anybody else's source code.
+was written by Ian Darwin without looking at anybody else's source code.
 .PP
 John Gilmore revised the code extensively, making it better than
 the first version.
 Geoff Collyer found several inadequacies
 and provided some magic file entries.
-Contributions by the `&' operator by Rob McMahon, cudcv@warwick.ac.uk, 1989.
+The program has undergone continued evolution since.
+.SH AUTHOR
+Written by Ian F. Darwin, UUCP address {utzoo | ihnp4}!darwin!ian,
+Internet address ian@sq.com,
+postal address: P.O. Box 603, Station F, Toronto, Ontario, CANADA M4Y 2L8.
 .PP
-Guy Harris, guy@netapp.com, made many changes from 1993 to the present.
+Altered by Rob McMahon, cudcv@warwick.ac.uk, 1989, to extend the `&' operator
+from simple `x&y != 0' to `x&y op z'.
 .PP
-Primary development and maintenance from 1990 to the present by
-Christos Zoulas (christos@astron.com).
+Altered by Guy Harris, guy@netapp.com, 1993, to:
+.RS
+.PP
+put the ``old-style'' `&'
+operator back the way it was, because 1) Rob McMahon's change broke the
+previous style of usage, 2) the SunOS ``new-style'' `&' operator,
+which this version of
+.B file
+supports, also handles `x&y op z', and 3) Rob's change wasn't documented
+in any case;
+.PP
+put in multiple levels of `>';
+.PP
+put in ``beshort'', ``leshort'', etc. keywords to look at numbers in the
+file in a specific byte order, rather than in the native byte order of
+the process running
+.BR file .
+.RE
+.PP
+Changes by Ian Darwin and various authors including
+Christos Zoulas (christos@astron.com), 1990-1999.
 .PP
 Altered by Chris Lowth, chris@lowth.com, 2000:
 Handle the ``-i'' option to output mime type strings and using an alternative
@@ -437,15 +357,45 @@ magic file and internal logic.
 Altered by Eric Fischer (enf@pobox.com), July, 2000,
 to identify character codes and attempt to identify the languages
 of non-ASCII files.
-.PP
-The list of contributors to the "Magdir" directory (source for the
-.I __MAGIC__
-file) is too long to include here.
-You know who you are; thank you.
 .SH LEGAL NOTICE
-Copyright (c) Ian F. Darwin, Toronto, Canada, 1986-1999.
-Covered by the standard Berkeley Software Distribution copyright; see the file
-LEGAL.NOTICE in the source distribution.
+Copyright (c) Ian F. Darwin, Toronto, Canada,
+1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993.
+.PP
+This software is not subject to and may not be made subject to any
+license of the American Telephone and Telegraph Company, Sun
+Microsystems Inc., Digital Equipment Inc., Lotus Development Inc., the
+Regents of the University of California, The X Consortium or MIT, or
+The Free Software Foundation.
+.PP
+This software is not subject to any export provision of the United States
+Department of Commerce, and may be exported to any country or planet.
+.PP
+Permission is granted to anyone to use this software for any purpose on
+any computer system, and to alter it and redistribute it freely, subject
+to the following restrictions:
+.PP 
+1. The author is not responsible for the consequences of use of this
+software, no matter how awful, even if they arise from flaws in it.
+.PP
+2. The origin of this software must not be misrepresented, either by
+explicit claim or by omission.  Since few users ever read sources,
+credits must appear in the documentation.
+.PP
+3. Altered versions must be plainly marked as such, and must not be
+misrepresented as being the original software.  Since few users
+ever read sources, credits must appear in the documentation.
+.PP
+4. This notice may not be removed or altered.
+.\" .PP
+.\" A few support files (\fIgetopt\fP, \fIstrtok\fP)
+.\" distributed with this package
+.\" are by Henry Spencer and are subject to the same terms as above.
+.\" .PP
+.\" A few simple support files (\fIstrtol\fP, \fIstrchr\fP)
+.\" distributed with this package
+.\" are in the public domain; they are so marked.
+.\"
+.\" enf: commented out because these support files don't seem to be included
 .PP
 The files
 .I tar.h
@@ -453,11 +403,10 @@ and
 .I is_tar.c
 were written by John Gilmore from his public-domain
 .B tar
-program, and are not covered by the above license.
+program, and are not covered by the above restrictions.
 .SH BUGS
 There must be a better way to automate the construction of the Magic
-file from all the glop in magdir.
-What is it?
+file from all the glop in Magdir. What is it?
 Better yet, the magic file should be compiled into binary (say,
 .BR ndbm (3)
 or, better yet, fixed-length
@@ -504,8 +453,7 @@ This could be done by using some keyword like `*' for the offset value.
 Another optimisation would be to sort
 the magic file so that we can just run down all the
 tests for the first byte, first word, first long, etc, once we
-have fetched it.
-Complain about conflicts in the magic file entries.
+have fetched it.  Complain about conflicts in the magic file entries.
 Make a rule that the magic entries sort based on file offset rather
 than position within the magic file?
 .PP
@@ -513,9 +461,8 @@ The program should provide a way to give an estimate
 of ``how good'' a guess is.
 We end up removing guesses (e.g. ``From '' as first 5 chars of file) because
 they are not as good as other guesses (e.g. ``Newsgroups:'' versus
-``Return-Path:'').
-Still, if the others don't pan out, it should be possible to use the
-first guess.  
+``Return-Path:'').  Still, if the others don't pan out, it should be
+possible to use the first guess.  
 .PP
 This program is slower than some vendors' file commands.
 The new support for multiple character codes makes it even slower.
@@ -526,4 +473,4 @@ You can obtain the original author's latest version by anonymous FTP
 on
 .B ftp.astron.com
 in the directory
-.I /pub/file/file-X.YZ.tar.gz
+.I /pub/file/file-X.YY.tar.gz

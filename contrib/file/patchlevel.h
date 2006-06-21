@@ -1,139 +1,11 @@
-#define	FILE_VERSION_MAJOR	4
-#define	patchlevel		17
+#define	FILE_VERSION_MAJOR	3
+#define	patchlevel		32
 
 /*
  * Patchlevel file for Ian Darwin's MAGIC command.
- * $Id: patchlevel.h,v 1.60 2006/03/02 22:15:12 christos Exp $
+ * $Id: patchlevel.h,v 1.32 2000/08/05 18:24:18 christos Exp $
  *
  * $Log: patchlevel.h,v $
- * Revision 1.60  2006/03/02 22:15:12  christos
- * welcome to 4.17
- *
- * Revision 1.59  2005/10/17 17:15:21  christos
- * welcome to 4.16
- *
- * Revision 1.58  2005/08/18 15:52:56  christos
- * welcome to 4.15
- *
- * Revision 1.57  2005/06/25 15:52:14  christos
- * Welcome to 4.14
- *
- * Revision 1.56  2005/02/09 19:25:13  christos
- * Welcome to 4.13
- *
- * Revision 1.55  2004/11/24 18:57:47  christos
- * Re-do the autoconf stuff once more; passes make dist now.
- *
- * Revision 1.54  2004/11/21 05:52:05  christos
- * ready for 4.11
- *
- * Revision 1.53  2004/07/24 20:40:46  christos
- * welcome to 4.10
- *
- * Revision 1.52  2004/04/07 00:32:25  christos
- * welcome to 4.09
- *
- * Revision 1.51  2004/03/22 21:17:11  christos
- * welcome to 4.08.
- *
- * Revision 1.50  2003/12/23 17:34:04  christos
- * 4.07
- *
- * Revision 1.49  2003/10/15 02:08:27  christos
- * welcome to 4.06
- *
- * Revision 1.48  2003/09/12 19:41:14  christos
- * this is 4.04
- *
- * Revision 1.47  2003/05/23 21:38:21  christos
- * welcome to 4.03
- *
- * Revision 1.46  2003/04/02 18:57:43  christos
- * prepare for 4.02
- *
- * Revision 1.45  2003/03/26 15:37:25  christos
- * - Pass lint
- * - make NULL in magic_file mean stdin
- * - Fix "-" argument to file to pass NULL to magic_file
- * - avoid pointer casts by using memcpy
- * - rename magic_buf -> magic_buffer
- * - keep only the first error
- * - manual page: new sentence, new line
- * - fix typo in api function (magic_buf -> magic_buffer)
- *
- * Revision 1.44  2003/03/23 22:23:31  christos
- * finish librarification.
- *
- * Revision 1.43  2003/03/23 21:16:26  christos
- * update copyrights.
- *
- * Revision 1.42  2003/03/23 04:06:05  christos
- * Library re-organization
- *
- * Revision 1.41  2003/02/27 20:53:45  christos
- * - fix memory allocation problem (Jeff Johnson)
- * - fix stack overflow corruption (David Endler)
- * - fixes from NetBSD source (Antti Kantee)
- * - magic fixes
- *
- * Revision 1.40  2003/02/08 18:33:53  christos
- * - detect inttypes.h too (Dave Love <d.love@dl.ac.uk>)
- * - eliminate unsigned char warnings (Petter Reinholdtsen <pere@hungry.com>)
- * - better elf PT_NOTE handling (Nalin Dahyabhai <nalin@redhat.com>)
- * - add options to format the output differently
- * - much more magic.
- *
- * Revision 1.39  2002/07/03 18:57:52  christos
- * - ansify/c99ize
- * - more magic
- * - better COMPILE_ONLY support.
- * - new magic files.
- * - fix solaris compilation problems.
- *
- * Revision 1.38  2002/05/16 18:45:56  christos
- * - pt_note elf additions from NetBSD
- * - EMX os specific changes (Alexander Mai)
- * - stdint.h detection, acconfig.h fixes (Maciej W. Rozycki, Franz Korntner)
- * - regex file additions (Kim Cromie)
- * - getopt_long support and misc cleanups (Michael Piefel)
- * - many magic fixes and additions
- *
- * Revision 1.37  2001/09/03 14:44:22  christos
- * daylight/tm_isdst detection
- * magic fixes
- * don't eat the whole file if it has only nulls
- *
- * Revision 1.36  2001/07/22 21:04:15  christos
- * - magic fixes
- * - add new operators, pascal strings, UTC date printing, $HOME/.magic
- *   [from "Tom N Harris" <telliamed@mac.com>]
- *
- * Revision 1.35  2001/04/24 14:40:25  christos
- * - rename magic file sgi to mips and fix it
- * - add support for building magic.mgc
- * - portability fixes for mmap()
- * - try gzip before uncompress, because uncompress sometimes hangs
- * - be more conservative about pipe reads and writes
- * - many magic fixes
- *
- * Revision 1.34  2001/03/12 05:05:57  christos
- * - new compiled magic format
- * - lots of magic additions
- *
- * Revision 1.33  2000/11/13 00:30:50  christos
- * - wordperfect magic fix: freebsd pr 9388
- * - more msdos fixes from freebsd pr's 20131 and 20812
- * - sas and spss magic [Bruce Foster]
- * - mkinstalldirs [John Fremlin]
- * - sgi opengl fixes [Michael Pruett]
- * - netbsd magic fixes [Ignatios Souvatzis]
- * - audio additions [Michael Pruett]
- * - fix problem with non ansi RCSID [Andreas Ley]
- * - oggs magic [Felix von Leitner]
- * - gmon magic [Eugen Dedu]
- * - TNEF magic [Joomy]
- * - netpbm magic and misc other image stuff [Bryan Henderson]
- *
  * Revision 1.32  2000/08/05 18:24:18  christos
  * Correct indianness detection in elf (Charles Hannum)
  * FreeBSD elf core support (Guy Harris)
@@ -308,3 +180,4 @@
  * Fix a tiny null-pointer bug in previous fix for tar archive + uncompress.
  * 
  */
+

@@ -1,80 +1,29 @@
 /*
- * Copyright (c) Ian F. Darwin 1986-1995.
- * Software written by Ian F. Darwin and others;
- * maintained 1995-present by Christos Zoulas and others.
- * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice immediately at the beginning of the file, without modification,
- *    this list of conditions, and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *  
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
- */
-/*
  * is_tar() -- figure out whether file is a tar archive.
  *
  * Stolen (by the author!) from the public domain tar program:
  * Public Domain version written 26 Aug 1985 John Gilmore (ihnp4!hoptoad!gnu).
  *
  * @(#)list.c 1.18 9/23/86 Public Domain - gnu
+ * $Id: is_tar.c,v 1.13 2000/08/05 17:36:48 christos Exp $
  *
  * Comments changed and some code/comments reformatted
  * for file command by Ian Darwin.
  */
 
-#include "file.h"
-#include "magic.h"
 #include <string.h>
 #include <ctype.h>
 #include <sys/types.h>
 #include "tar.h"
+#include "file.h"
 
 #ifndef lint
-FILE_RCSID("@(#)$Id: is_tar.c,v 1.25 2004/09/11 19:15:57 christos Exp $")
+FILE_RCSID("@(#)$Id: is_tar.c,v 1.13 2000/08/05 17:36:48 christos Exp $")
 #endif
 
 #define	isodigit(c)	( ((c) >= '0') && ((c) <= '7') )
 
-private int is_tar(const unsigned char *, size_t);
-private int from_oct(int, const char *);	/* Decode octal number */
-
-protected int
-file_is_tar(struct magic_set *ms, const unsigned char *buf, size_t nbytes)
-{
-	/*
-	 * Do the tar test first, because if the first file in the tar
-	 * archive starts with a dot, we can confuse it with an nroff file.
-	 */
-	switch (is_tar(buf, nbytes)) {
-	case 1:
-	        if (file_printf(ms, (ms->flags & MAGIC_MIME) ?
-		    "application/x-tar" : "tar archive") == -1)
-			return -1;
-		return 1;
-	case 2:
-		if (file_printf(ms, (ms->flags & MAGIC_MIME) ?
-		    "application/x-tar, POSIX" : "POSIX tar archive") == -1)
-			return -1;
-		return 1;
-	default:
-		return 0;
-	}
-}
+static int from_oct __P((int, char *));	/* Decode octal number */
 
 /*
  * Return 
@@ -82,13 +31,15 @@ file_is_tar(struct magic_set *ms, const unsigned char *buf, size_t nbytes)
  *	1 for old UNIX tar file,
  *	2 for Unix Std (POSIX) tar file.
  */
-private int
-is_tar(const unsigned char *buf, size_t nbytes)
+int
+is_tar(buf, nbytes)
+	unsigned char *buf;
+	int nbytes;
 {
-	const union record *header = (const union record *)(const void *)buf;
+	union record *header = (union record *)buf;
 	int	i;
 	int	sum, recsum;
-	const char	*p;
+	char	*p;
 
 	if (nbytes < sizeof(union record))
 		return 0;
@@ -99,7 +50,7 @@ is_tar(const unsigned char *buf, size_t nbytes)
 	p = header->charptr;
 	for (i = sizeof(union record); --i >= 0;) {
 		/*
-		 * We cannot use unsigned char here because of old compilers,
+		 * We can't use unsigned char here because of old compilers,
 		 * e.g. V7.
 		 */
 		sum += 0xFF & *p++;
@@ -125,8 +76,10 @@ is_tar(const unsigned char *buf, size_t nbytes)
  *
  * Result is -1 if the field is invalid (all blank, or nonoctal).
  */
-private int
-from_oct(int digs, const char *where)
+static int
+from_oct(digs, where)
+	int	digs;
+	char	*where;
 {
 	int	value;
 

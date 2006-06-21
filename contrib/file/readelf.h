@@ -1,31 +1,6 @@
 /*
- * Copyright (c) Christos Zoulas 2003.
- * All Rights Reserved.
- * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice immediately at the beginning of the file, without modification,
- *    this list of conditions, and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *  
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
- */
-/*
- * @(#)Id: readelf.h,v 1.9 2002/05/16 18:45:56 christos Exp
+ * readelf.h 
+ * @(#)$Id: readelf.h,v 1.7 1999/02/14 17:16:11 christos Exp $
  *
  * Provide elf data structures for non-elf machines, allowing file
  * non-elf hosts to determine if an elf binary is stripped.
@@ -33,10 +8,6 @@
  */
 #ifndef __fake_elf_h__
 #define __fake_elf_h__
-
-#if HAVE_STDINT_H
-#include <stdint.h>
-#endif
 
 typedef uint32_t	Elf32_Addr;
 typedef uint32_t	Elf32_Off;
@@ -50,7 +21,6 @@ typedef	uint32_t 	Elf64_Addr[2];
 typedef	uint32_t 	Elf64_Off[2];
 typedef uint32_t 	Elf64_Xword[2];
 #else
-#undef USE_ARRAY_FOR_64BIT_TYPES
 typedef	uint64_t 	Elf64_Addr;
 typedef	uint64_t 	Elf64_Off;
 typedef uint64_t 	Elf64_Xword;
@@ -196,8 +166,6 @@ typedef struct {
 #define NT_PRPSINFO	3
 #define NT_TASKSTRUCT	4
 
-#define	NT_NETBSD_CORE_PROCINFO		1
-
 /* Note header in a PT_NOTE section */
 typedef struct elf_note {
     Elf32_Word	n_namesz;	/* Name size */
@@ -217,20 +185,5 @@ typedef struct {
 #define	NT_PRXREG	4
 #define	NT_PLATFORM	5
 #define	NT_AUXV		6
-
-/* Note types used in executables */
-/* NetBSD executables (name = "NetBSD") */
-#define NT_NETBSD_VERSION	1
-#define NT_NETBSD_EMULATION	2
-#define NT_FREEBSD_VERSION	1
-#define NT_OPENBSD_VERSION	1
-#define NT_DRAGONFLY_VERSION	1
-/* GNU executables (name = "GNU") */
-#define NT_GNU_VERSION		1
-
-/* GNU OS tags */
-#define GNU_OS_LINUX	0
-#define GNU_OS_HURD	1
-#define GNU_OS_SOLARIS	2
 
 #endif
