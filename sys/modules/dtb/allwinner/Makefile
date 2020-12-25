@@ -57,7 +57,8 @@ DTSO=	sun50i-a64-opp.dtso \
 	sun50i-a64-spi0-spigen.dtso \
 	sun50i-a64-timer.dtso \
 	sun50i-h5-opp.dtso \
-	sun50i-h5-nanopi-neo2-opp.dtso
+	sun50i-h5-nanopi-neo2-opp.dtso \
+	sun50i-h5-nanopi-neo2-nanohat.dtso
 
 .endif
 

@@ -1,0 +1,65 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+
+/ {
+    compatible = "allwinner,sun50i-h5";
+};
+
+&{/soc} {
+
+    codec {
+        status = "okay";
+    };
+
+
+    // /* Not yet supported on allwinner */
+    // gpio-keys {
+    //     compatible = "gpio-keys";
+
+    //     up-key {
+    //         label = "Up Key";
+    //         linux,code = <103>;
+    //         gpios = <&pio 0 0 GPIO_ACTIVE_HIGH>; /* PA0 */
+    //     };
+
+    //     down-key {
+    //         label = "Down Key";
+    //         linux,code = <108>;
+    //         gpios = <&pio 0 2 GPIO_ACTIVE_HIGH>; /* PA2 */
+    //     };
+
+    //     return-key {
+    //         label = "Return Key";
+    //         linux,code = <28>;
+    //         gpios = <&pio 0 3 GPIO_ACTIVE_HIGH>; /* PA3 */
+    //     };
+
+    // };
+
+    pinctrl-names = "default";
+    pinctrl-0 = <&button_pins>;
+
+    pinctrl@1c20800 {
+        button_pins: buttons {
+            pins = "PA0", "PA2", "PA3";
+            function = "gpio_in";
+        };
+    };
+
+    i2c@1c2ac00 {
+        status = "okay";
+    };
+
+    usb@1c1b000 {
+
+        status = "okay";
+    };
+
+    usb@1c1b400 {
+
+        status = "okay";
+    };
+};
